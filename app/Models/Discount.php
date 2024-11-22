@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\DiscountTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Discount extends Model
 {
@@ -16,10 +16,15 @@ class Discount extends Model
         'name',
         'description',
         'amount',
+        'product_id'
+    ];
+
+    protected $casts = [
+        'type' => DiscountTypeEnum::class
     ];
 
     public function products()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 }

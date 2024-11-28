@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\ProductStatusEnum;
-use App\Filament\Resources\ProductResource\Pages;
-use App\Filament\Resources\ProductResource\RelationManagers;
-use App\Models\Product;
+use App\Filament\Resources\PostResource\Pages;
+use App\Filament\Resources\PostResource\RelationManagers;
+use App\Models\Post;
 use Filament\Forms;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -17,28 +17,32 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ProductResource extends Resource
+class PostResource extends Resource
 {
-    protected static ?string $model = Product::class;
+    protected static ?string $model = Post::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-cube';
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    protected static ?string $navigationGroup = 'Ecommerce';
+    protected static ?string $navigationGroup = 'Blog';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('name')
+                TextInput::make('title')
                 ->required()
-                ->maxLength(100),
-                TextInput::make('price')
+                ->maxLength(200),
+                TextInput::make('tags'),
+                MarkdownEditor::make('content')
                 ->required(),
-                Select::make('status')
-                ->options([
-                    ProductStatusEnum::ENABLED->value => 'Enabled',
-                    ProductStatusEnum::DISABLED->value => 'Disabled',
-                    ProductStatusEnum::DRAFT->value => 'Draft'
+                Select::make('category_id')
+                ->relationship('category', 'name')
+                ->searchable()
+                ->preload()
+                ->createOptionForm([
+                    TextInput::make('name')
+                    ->required()
+                    ->maxLength(50)
                 ])
             ]);
     }
@@ -47,9 +51,10 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name'),
-                TextColumn::make('price'),
-                TextColumn::make('status')
+                TextColumn::make('title'),
+                TextColumn::make('tags'),
+                TextColumn::make('category.name'),
+                TextColumn::make('user.email')
             ])
             ->filters([
                 //
@@ -74,9 +79,9 @@ class ProductResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProducts::route('/'),
-            'create' => Pages\CreateProduct::route('/create'),
-            'edit' => Pages\EditProduct::route('/{record}/edit'),
+            'index' => Pages\ListPosts::route('/'),
+            'create' => Pages\CreatePost::route('/create'),
+            'edit' => Pages\EditPost::route('/{record}/edit'),
         ];
     }
 }

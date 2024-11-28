@@ -22,7 +22,9 @@ class DiscountResource extends Resource
 {
     protected static ?string $model = Discount::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-sparkles';
+
+    protected static ?string $navigationGroup = 'Ecommerce';
 
     public static function form(Form $form): Form
     {

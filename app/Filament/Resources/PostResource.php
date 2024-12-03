@@ -6,12 +6,14 @@ use App\Filament\Resources\PostResource\Pages;
 use App\Filament\Resources\PostResource\RelationManagers;
 use App\Models\Post;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -33,8 +35,10 @@ class PostResource extends Resource
                 ->required()
                 ->maxLength(200),
                 TextInput::make('tags'),
-                MarkdownEditor::make('content')
-                ->required(),
+                FileUpload::make('image')
+                ->label('Image')
+                ->image()
+                ->directory('posts/images'),
                 Select::make('category_id')
                 ->relationship('category', 'name')
                 ->searchable()
@@ -43,7 +47,9 @@ class PostResource extends Resource
                     TextInput::make('name')
                     ->required()
                     ->maxLength(50)
-                ])
+                ]),
+                MarkdownEditor::make('content')
+                ->required(),
             ]);
     }
 
@@ -51,6 +57,7 @@ class PostResource extends Resource
     {
         return $table
             ->columns([
+                ImageColumn::make('image')->disk('public'),
                 TextColumn::make('title'),
                 TextColumn::make('tags'),
                 TextColumn::make('category.name'),

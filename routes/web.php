@@ -15,11 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/dashboard', function () {
+Route::get('/home', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -30,7 +26,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::controller(PostController::class)->group(function () {
-    Route::get('/posts/all', 'index')->name('blog.index');
+    Route::get('/posts', 'index')->name('blog.index');
 });
 
 require __DIR__.'/auth.php';

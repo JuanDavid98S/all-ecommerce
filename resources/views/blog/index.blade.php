@@ -1,19 +1,42 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __($pageTitle) }}
+    @section('pageTitle')
+        <h2 class="text-body">
+            {{ ucwords($pageTitle) }}
         </h2>
-    </x-slot>
+    @endsection
 
-    <div class="container mx-auto px-4 py-10">
-        <div class="grid grid-cols-4 md:grid-cols-2 lg:grid-cols-3">
-            @foreach ($posts as $post)
-                <article class="bg-white rounded-lg shadow p-6">
-                    <h2 class="text-lg font-semibold text-gray-800">{{ ucwords($post->title) }}</h2>
-                    <p class="text-gray-600 mt-2">{{ substr($post->content, 0, 100) . '...' }}</p>
-                    <a href="#" class="text-blue-500 hover:underline mt-4 block">Leer más</a>
-                </article>
-            @endforeach
+    @section('content')
+        <div class="container p-3 mt-3">
+            <h3 class="text-primary pt-2 mb-2">
+                Blog Entries
+            </h3>
+            <div class="container p-2">
+                <div class="row">
+                    @foreach($posts as $post)
+                        <div class="col-md-4 d-flex align-items-stretch mb-4">
+                            <div class="card">
+                                <img src="{{ asset($post->image) }}" alt="Post Image" class="card-image-top card-img">
+                                <div class="card-body">
+                                    <h4 class="card-title">{{ ucwords($post->title) }}</h4>
+                                    <p class="card-text">{!! str(substr($post->content, 0, 150) . '...')->markdown()->sanitizeHtml() !!}</p>
+                                    <a href="#" class="btn btn-primary">See Profile</a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>  
+            </div>
         </div>
-    </div>
+    @endsection
+
+    <style>
+        .card-img {
+            width: 100%; /* Asegura que ocupe todo el ancho del contenedor */
+            height: 200px; /* Define una altura fija */
+            object-fit: cover; /* Ajusta la imagen para que cubra el contenedor */
+            border-radius: 0.5rem; /* Opcional, para esquinas redondeadas */
+        }
+    </style>
+
 </x-app-layout>
+

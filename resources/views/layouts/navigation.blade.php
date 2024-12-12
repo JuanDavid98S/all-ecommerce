@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom p-4">
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom p-4 sticky-top">
     <div class="container-fluid pe-4 ps-2">
         <!-- Logo -->
         <a class="navbar-brand" href="{{ route('dashboard') }}">
@@ -12,14 +12,22 @@
 
         <!-- Navigation Links -->
         <div class="collapse navbar-collapse ps-5" id="navbarContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">{{ __('Home') }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('blog.index') ? 'active' : '' }}" href="{{ route('blog.index') }}">{{ __('Blog') }}</a>
-                </li>
-            </ul>
+            <div class="mx-auto">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">{{ __('Home') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('blog.index') ? 'active' : '' }}" href="{{ route('blog.index') }}">{{ __('Blog') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('blog.index') ? 'active' : '' }}" href="{{ route('blog.index') }}">{{ __('Shop') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('blog.index') ? 'active' : '' }}" href="{{ route('blog.index') }}">{{ __('Pages') }}</a>
+                    </li>
+                </ul>
+            </div>
 
             <!-- Settings Dropdown -->
             <div class="dropdown">

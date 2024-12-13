@@ -1,4 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom p-4 sticky-top">
+    @php 
+        $pages = App\Models\Page::all();
+    @endphp
     <div class="container-fluid pe-4 ps-2">
         <!-- Logo -->
         <a class="navbar-brand" href="{{ route('dashboard') }}">
@@ -23,9 +26,11 @@
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('blog.index') ? 'active' : '' }}" href="{{ route('blog.index') }}">{{ __('Shop') }}</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('blog.index') ? 'active' : '' }}" href="{{ route('blog.index') }}">{{ __('Pages') }}</a>
-                    </li>
+                    @foreach ($pages as $page)
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs($page->slug) ? 'active' : '' }}" href="{{ route('page.show', ['slug' => $page->slug]) }}">{{ __($page->name) }}</a>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
 

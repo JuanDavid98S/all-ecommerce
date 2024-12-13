@@ -3,19 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class Page extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'title',
+        'name',
+        'slug',
+        'description',
         'content',
-        'image',
-        'tags',
         'status',
-        'category_id',
         'user_id'
     ];
 
@@ -24,8 +24,9 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function category()
+    public function setNameAttribute($name)
     {
-        return $this->belongsTo(Category::class, 'category_id', 'id');
+        $this->attributes['name'] = $name;
+        $this->attributes['slug'] = Str::slug($name, '-');
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -25,9 +26,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware('guest')->group(function () {
-    Route::get('/posts', [PostController::class, 'index'])->name('blog.index');
-    Route::get('/post/{id}', [PostController::class, 'show'])->name('blog.show');
-});
+//Blog routes
+Route::get('/posts', [PostController::class, 'index'])->name('blog.index');
+Route::get('/post/{id}', [PostController::class, 'show'])->name('blog.show');
+
+//Pages Routes
+Route::get('/page/{slug}', [PageController::class, 'show'])->name('page.show');
 
 require __DIR__.'/auth.php';

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/home', function () {
+Route::get('/', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -25,9 +25,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::controller(PostController::class)->group(function () {
-    Route::get('/posts', 'index')->name('blog.index');
-    Route::get('/post/{id}', 'show')->name('blog.show');
+Route::middleware('guest')->group(function () {
+    Route::get('/posts', [PostController::class, 'index'])->name('blog.index');
+    Route::get('/post/{id}', [PostController::class, 'show'])->name('blog.show');
 });
 
 require __DIR__.'/auth.php';

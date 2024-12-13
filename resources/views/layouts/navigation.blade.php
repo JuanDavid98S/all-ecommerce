@@ -32,7 +32,7 @@
             <!-- Settings Dropdown -->
             <div class="dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    {{ Auth::user()->name }}
+                    {{ auth()->check() ? Auth::user()->name : 'Guest' }}
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                     <li>
